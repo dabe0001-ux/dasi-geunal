@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다시 그날 — AI 웨딩 화보</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ivory:    #faf7f2;
+      --ivory-dk: #f0ebe0;
+      --cream:    #e8e0d0;
+      --gold:     #b8975a;
+      --gold-lt:  #d4b57a;
+      --brown:    #6b5540;
+      --charcoal: #3a3530;
+      --muted:    #8a7d70;
+      --white:    #ffffff;
+      --shadow:   rgba(107, 85, 64, 0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--ivory);
+      color: var(--charcoal);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--cream);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--brown); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.4rem;
+    }
+    nav ul a {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--brown);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--white) !important;
+      padding: 0.5rem 1.4rem;
+      border-radius: 2px;
+      font-weight: 400 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--brown) !important; color: var(--white) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--ivory-dk);
+    }
+    .hero-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+      display: block;
+    }
+    /* 이미지 로드 실패 시 빈 프레임 */
+    .hero-bg img.img-missing {
+      opacity: 0;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(250,247,242,0.18) 0%,
+        rgba(250,247,242,0.55) 60%,
+        rgba(250,247,242,0.92) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      text-align: center;
+      padding: 0 1.5rem;
+      max-width: 780px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--charcoal);
+      margin-bottom: 1rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 2.6rem;
+      line-height: 1.9;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--white);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      padding: 0.9rem 2.4rem;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--brown); transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-block;
+      background: transparent;
+      color: var(--brown);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      padding: 0.9rem 2.4rem;
+      border: 1px solid var(--gold-lt);
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+    }
+    .btn-ghost:hover { background: var(--cream); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold-lt), transparent);
+      animation: scrollDrop 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+      40%  { opacity: 1; }
+      100% { opacity: 0; transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 7rem 5%; }
+
+    .section-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--charcoal);
+      line-height: 1.25;
+      margin-bottom: 1.2rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    .section-desc {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.97rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 520px;
+    }
+
+    .center { text-align: center; }
+    .center .section-desc { margin: 0 auto; }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--gold-lt);
+      margin: 1.6rem 0;
+    }
+    .center .divider { margin: 1.6rem auto; }
+
+    /* ── DREAM GALLERY ── */
+    #gallery { background: var(--ivory); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.6rem;
+      margin-top: 3.5rem;
+    }
+
+    .dream-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--cream);
+      box-shadow: 0 4px 24px var(--shadow);
+      aspect-ratio: 3/4;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .dream-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px var(--shadow); }
+
+    .dream-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s;
+    }
+    .dream-card:hover img { transform: scale(1.04); }
+
+    /* 이미지 없을 때 빈 프레임 */
+    .img-frame {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      pointer-events: none;
+    }
+    .img-frame svg { opacity: 0.4; }
+
+    .card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.4rem 1.2rem;
+      background: linear-gradient(transparent, rgba(58,53,48,0.72));
+      color: var(--ivory);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+    .card-label small {
+      display: block;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+    }
+
+    /* ── PROCESS ── */
+    #process { background: var(--ivory-dk); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0;
+      margin-top: 4rem;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 44px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 1px;
+      background: var(--cream);
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
+    .step-num {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--ivory);
+      border: 1.5px solid var(--gold-lt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .step-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--gold);
+    }
+
+    .step h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.03em;
+    }
+
+    .step p {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    /* ── UPLOAD & FORM ── */
+    #apply {
+      background: var(--ivory);
+    }
+
+    .apply-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 4rem;
+      align-items: start;
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 1.5px dashed var(--gold-lt);
+      border-radius: 4px;
+      background: var(--ivory-dk);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .upload-zone:hover,
+    .upload-zone.drag-over { background: var(--cream); border-color: var(--gold); }
+
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+      color: var(--gold);
+    }
+
+    .upload-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-top: 1.4rem;
+    }
+    .preview-item {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      overflow: hidden;
+      background: var(--cream);
+      position: relative;
+    }
+    .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .preview-item .remove-btn {
+      position: absolute;
+      top: 3px; right: 3px;
+      width: 20px; height: 20px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    /* Form */
+    .apply-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field label {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--brown);
+      text-transform: uppercase;
+    }
+    .field label .req { color: var(--gold); margin-left: 2px; }
+
+    .field input,
+    .field select,
+    .field textarea {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--charcoal);
+      background: var(--ivory-dk);
+      border: 1px solid var(--cream);
+      border-radius: 2px;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--gold-lt);
+      background: var(--white);
+    }
+    .field textarea { resize: vertical; min-height: 100px; }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: 0.8rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] {
+      margin-top: 2px;
+      accent-color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .form-notice {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.7;
+      padding: 1rem;
+      background: var(--ivory-dk);
+      border-left: 2px solid var(--gold-lt);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--gold);
+      color: var(--white);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      padding: 1.1rem;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.25s;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover { background: var(--brown); }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--charcoal);
+      color: var(--ivory);
+      font-size: 0.88rem;
+      font-weight: 300;
+      padding: 0.9rem 2rem;
+      border-radius: 3px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+      z-index: 999;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal);
+      color: var(--muted);
+      text-align: center;
+      padding: 3.5rem 5%;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.8rem;
+    }
+    footer p {
+      font-size: 0.78rem;
+      font-weight: 300;
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+    footer a { color: var(--gold-lt); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .apply-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .steps::before { display: none; }
+    }
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      .steps { gap: 3rem; }
+      section { padding: 5rem 6%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">다시 <span>그날</span></a>
+  <ul>
+    <li><a href="#gallery">로망 예시</a></li>
+    <li><a href="#process">진행 과정</a></li>
+    <li><a href="#apply" class="nav-cta">신청하기</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <img id="heroImg" src="images/hero.jpg" alt="웨딩 화보" />
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">AI Wedding Portrait</p>
+    <h1 class="hero-title">그날의 설렘을<br /><em>다시, 영원히</em></h1>
+    <p class="hero-subtitle">
+      평범한 일상 사진 몇 장이면 충분합니다.<br />
+      AI가 당신만의 웨딩 화보를 새롭게 완성해드립니다.
+    </p>
+    <div class="hero-actions">
+      <a href="#apply" class="btn-primary">지금 신청하기</a>
+      <a href="#gallery" class="btn-ghost">예시 보기</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="center">
+    <span class="section-tag">Dream Gallery</span>
+    <h2 class="section-title">이런 화보를<br /><em>만들어드립니다</em></h2>
+    <div class="divider"></div>
+    <p class="section-desc">
+      로맨틱 야외, 클래식 스튜디오, 시네마틱 무드, 동화 같은 장면까지.<br />
+      원하는 분위기를 골라보세요.
+    </p>
+  </div>
+
+  <div class="cards-grid">
+    <!-- Card 1 -->
+    <div class="dream-card">
+      <div class="img-frame" id="frame1">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>dream-1.jpg</span>
+      </div>
+      <img data-src="images/dream-1.jpg" alt="로맨틱 야외 화보" class="lazy-img" />
+      <div class="card-label">로맨틱 야외<small>Golden Hour · Garden</small></div>
+    </div>
+    <!-- Card 2 -->
+    <div class="dream-card">
+      <div class="img-frame" id="frame2">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>dream-2.jpg</span>
+      </div>
+      <img data-src="images/dream-2.jpg" alt="클래식 스튜디오 화보" class="lazy-img" />
+      <div class="card-label">클래식 스튜디오<small>Timeless · Elegant</small></div>
+    </div>
+    <!-- Card 3 -->
+    <div class="dream-card">
+      <div class="img-frame" id="frame3">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>dream-3.jpg</span>
+      </div>
+      <img data-src="images/dream-3.jpg" alt="시네마틱 무드 화보" class="lazy-img" />
+      <div class="card-label">시네마틱 무드<small>Cinematic · Dramatic</small></div>
+    </div>
+    <!-- Card 4 -->
+    <div class="dream-card">
+      <div class="img-frame" id="frame4">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>dream-4.jpg</span>
+      </div>
+      <img data-src="images/dream-4.jpg" alt="동화 속 화보" class="lazy-img" />
+      <div class="card-label">동화 속 한 장면<small>Fairytale · Dreamy</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="center">
+    <span class="section-tag">How It Works</span>
+    <h2 class="section-title">단 <em>3단계</em>로<br />완성되는 화보</h2>
+    <div class="divider"></div>
+    <p class="section-desc">복잡한 촬영 없이도 전문 화보를 경험하세요.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon">📷</div>
+      <h3>사진 업로드</h3>
+      <p>
+        평소 찍어둔 사진 5–10장을 업로드하세요.<br />
+        얼굴이 잘 나온 사진이면 충분합니다.
+      </p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">✨</div>
+      <h3>AI 화보 생성</h3>
+      <p>
+        원하는 무드와 컨셉을 선택하면<br />
+        AI가 맞춤형 웨딩 화보를 제작합니다.
+      </p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">💌</div>
+      <h3>결과물 수령</h3>
+      <p>
+        24–48시간 내 고화질 파일을 이메일로<br />
+        전달해드립니다. 출력도 가능합니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section id="apply">
+  <div class="center">
+    <span class="section-tag">Apply Now</span>
+    <h2 class="section-title">지금 바로<br /><em>신청</em>해보세요</h2>
+    <div class="divider"></div>
+    <p class="section-desc">소중한 날의 기억을 더욱 아름답게 간직하세요.</p>
+  </div>
+
+  <div class="apply-grid">
+    <!-- Upload -->
+    <div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--brown);margin-bottom:1rem;letter-spacing:0.04em;">사진 업로드</p>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" multiple accept="image/*" />
+        <div class="upload-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p class="upload-title">사진을 끌어다 놓거나 클릭하세요</p>
+        <p class="upload-hint">
+          JPG, PNG, HEIC 지원 · 파일당 최대 20MB<br />
+          5–10장 권장 (얼굴이 선명하게 나온 사진)
+        </p>
+      </div>
+      <div class="preview-grid" id="previewGrid"></div>
+    </div>
+
+    <!-- Form -->
+    <form class="apply-form" id="applyForm" novalidate>
+      <div class="form-row">
+        <div class="field">
+          <label>이름 <span class="req">*</span></label>
+          <input type="text" name="name" placeholder="홍길동" required />
+        </div>
+        <div class="field">
+          <label>연락처 <span class="req">*</span></label>
+          <input type="tel" name="phone" placeholder="010-0000-0000" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>이메일 <span class="req">*</span></label>
+        <input type="email" name="email" placeholder="example@email.com" required />
+      </div>
+
+      <div class="field">
+        <label>화보 컨셉 <span class="req">*</span></label>
+        <div class="select-wrap">
+          <select name="concept" required>
+            <option value="">원하는 분위기를 선택해주세요</option>
+            <option value="romantic">로맨틱 야외 (Golden Hour)</option>
+            <option value="classic">클래식 스튜디오 (Timeless)</option>
+            <option value="cinematic">시네마틱 무드 (Dramatic)</option>
+            <option value="fairytale">동화 속 한 장면 (Dreamy)</option>
+            <option value="custom">직접 입력 (아래에 설명)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>웨딩 날짜 (선택)</label>
+        <input type="date" name="weddingDate" />
+      </div>
+
+      <div class="field">
+        <label>요청 사항</label>
+        <textarea name="message" placeholder="원하는 분위기, 포함하고 싶은 소품, 특별히 고려해야 할 사항 등을 자유롭게 적어주세요."></textarea>
+      </div>
+
+      <div class="form-notice">
+        📌 접수 후 1–2 영업일 내 담당자가 연락드립니다. 정확한 결과를 위해 다양한 각도의 사진을 함께 업로드해주세요.
+      </div>
+
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" name="privacy" required />
+          <span>[필수] 개인정보 수집 및 이용에 동의합니다. 수집된 정보는 서비스 제공 목적으로만 사용됩니다.</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="marketing" />
+          <span>[선택] 신규 컨셉 및 이벤트 안내 수신에 동의합니다.</span>
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn">신청서 제출하기</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">다시 그날</div>
+  <p>
+    AI Wedding Portrait Studio<br />
+    contact@dasigeunal.kr &nbsp;|&nbsp; 운영시간 평일 10:00–18:00<br /><br />
+    <small>© 2026 다시그날. All rights reserved. &nbsp;·&nbsp; <a href="#">개인정보처리방침</a> &nbsp;·&nbsp; <a href="#">이용약관</a></small>
+  </p>
+</footer>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+  // ── 이미지 로드 실패 시 빈 프레임 표시 ──
+  (function () {
+    const heroImg = document.getElementById('heroImg');
+    heroImg.addEventListener('error', function () {
+      this.style.display = 'none';
+    });
+
+    // Lazy-load + 에러 처리
+    document.querySelectorAll('.lazy-img').forEach(function (img, i) {
+      const src = img.getAttribute('data-src');
+      const frame = document.getElementById('frame' + (i + 1));
+      img.src = src;
+      img.addEventListener('load', function () {
+        if (frame) frame.style.display = 'none';
+      });
+      img.addEventListener('error', function () {
+        this.style.visibility = 'hidden';
+        if (frame) frame.style.display = 'flex';
+      });
+    });
+  })();
+
+  // ── 드래그 앤 드롭 ──
+  const zone = document.getElementById('uploadZone');
+  const fileInput = document.getElementById('fileInput');
+  const previewGrid = document.getElementById('previewGrid');
+  let uploadedFiles = [];
+
+  zone.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    zone.classList.add('drag-over');
+  });
+  zone.addEventListener('dragleave', function () {
+    zone.classList.remove('drag-over');
+  });
+  zone.addEventListener('drop', function (e) {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change', function () {
+    handleFiles(this.files);
+  });
+
+  function handleFiles(files) {
+    Array.from(files).forEach(function (file) {
+      if (!file.type.startsWith('image/')) return;
+      if (uploadedFiles.length >= 10) { showToast('최대 10장까지 업로드할 수 있습니다.'); return; }
+      uploadedFiles.push(file);
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        addPreview(e.target.result, uploadedFiles.length - 1);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function addPreview(src, idx) {
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    item.dataset.idx = idx;
+    const img = document.createElement('img');
+    img.src = src;
+    const btn = document.createElement('button');
+    btn.className = 'remove-btn';
+    btn.innerHTML = '✕';
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      uploadedFiles.splice(idx, 1);
+      item.remove();
+    });
+    item.appendChild(img);
+    item.appendChild(btn);
+    previewGrid.appendChild(item);
+  }
+
+  // ── 폼 제출 ──
+  document.getElementById('applyForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const form = this;
+    if (!form.name.value.trim()) { showToast('이름을 입력해주세요.'); return; }
+    if (!form.phone.value.trim()) { showToast('연락처를 입력해주세요.'); return; }
+    if (!form.email.value.trim()) { showToast('이메일을 입력해주세요.'); return; }
+    if (!form.concept.value) { showToast('화보 컨셉을 선택해주세요.'); return; }
+    if (!form.privacy.checked) { showToast('개인정보 수집 및 이용에 동의해주세요.'); return; }
+
+    // 실제 서비스에서는 여기서 API 호출
+    showToast('✓ 신청이 완료되었습니다! 1–2 영업일 내 연락드리겠습니다.');
+    form.reset();
+    uploadedFiles = [];
+    previewGrid.innerHTML = '';
+  });
+
+  // ── 토스트 ──
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3500);
+  }
+
+  // ── 스크롤 진입 애니메이션 ──
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.dream-card, .step, .upload-zone, .apply-form').forEach(function (el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(28px)';
+    el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
