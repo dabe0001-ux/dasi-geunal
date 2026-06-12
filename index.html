@@ -1,987 +1,1604 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>다시 그날 — AI 웨딩 화보</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>다시, 그날 — 당신의 로망을 한 장의 그날로 | AI 웨딩 아틀리에</title>
+<meta name="description" content="AI를 몰라도 괜찮습니다. 막연한 로망 한 줄이면, 듣고 정리하고 검수해서 당신만의 웨딩 화보로 완성해 드립니다. 사람이 검수하는 프리미엄 AI 웨딩 아틀리에." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@200;300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+/* ════════════════════════ RESET & TOKENS ════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --ivory:    #faf7f2;
-      --ivory-dk: #f0ebe0;
-      --cream:    #e8e0d0;
-      --gold:     #b8975a;
-      --gold-lt:  #d4b57a;
-      --brown:    #6b5540;
-      --charcoal: #3a3530;
-      --muted:    #8a7d70;
-      --white:    #ffffff;
-      --shadow:   rgba(107, 85, 64, 0.12);
-    }
+:root {
+  --ivory:      #f7f3ec;
+  --ivory-soft: #f1ebe1;
+  --paper:      #fcfaf6;
+  --linen:      #e7dfd2;
+  --gold:       #ae8a53;
+  --gold-soft:  #c9ad7d;
+  --gold-faint: #e2d3b8;
+  --espresso:   #2e2823;
+  --ink:        #3b342d;
+  --umber:      #6e5f4e;
+  --mist:       #94897b;
+  --white:      #ffffff;
+  --shadow:     rgba(78, 64, 48, 0.10);
+  --shadow-deep: rgba(78, 64, 48, 0.18);
+  --serif-en:   'Cormorant Garamond', 'Noto Serif KR', serif;
+  --serif-ko:   'Noto Serif KR', 'Gowun Batang', serif;
+  --batang:     'Gowun Batang', 'Noto Serif KR', serif;
+  --sans:       'Noto Sans KR', sans-serif;
+}
 
-    html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
+::selection { background: var(--gold-faint); color: var(--espresso); }
 
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--ivory);
-      color: var(--charcoal);
-      line-height: 1.7;
-    }
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  background: var(--ivory);
+  color: var(--ink);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.2rem 5%;
-      background: rgba(250, 247, 242, 0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--cream);
-    }
+/* 종이 질감 — 아주 옅은 노이즈 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.04'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: var(--gold);
-      letter-spacing: 0.12em;
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--brown); }
+main, nav, footer { position: relative; z-index: 1; }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2.4rem;
-    }
-    nav ul a {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: var(--brown);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    nav ul a:hover { color: var(--gold); }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
 
-    .nav-cta {
-      background: var(--gold);
-      color: var(--white) !important;
-      padding: 0.5rem 1.4rem;
-      border-radius: 2px;
-      font-weight: 400 !important;
-      transition: background 0.2s !important;
-    }
-    .nav-cta:hover { background: var(--brown) !important; color: var(--white) !important; }
+/* ════════════════════════ REVEAL ════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0s);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
 
-    /* ── HERO ── */
-    #hero {
-      position: relative;
-      height: 100vh;
-      min-height: 640px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+/* ════════════════════════ NAV ════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem clamp(1.2rem, 5vw, 4rem);
+  transition: padding 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+nav.scrolled {
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+  background: rgba(247, 243, 236, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(174, 138, 83, 0.16);
+}
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: var(--ivory-dk);
-    }
-    .hero-bg img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0.55;
-      display: block;
-    }
-    /* 이미지 로드 실패 시 빈 프레임 */
-    .hero-bg img.img-missing {
-      opacity: 0;
-    }
+.nav-logo {
+  font-family: var(--serif-ko);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  color: var(--espresso);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-logo .comma { color: var(--gold); font-style: italic; }
+.nav-logo small {
+  display: block;
+  font-family: var(--serif-en);
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: -0.1rem;
+}
 
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(250,247,242,0.18) 0%,
-        rgba(250,247,242,0.55) 60%,
-        rgba(250,247,242,0.92) 100%
-      );
-    }
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 3vw, 2.6rem);
+}
+nav ul a {
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  color: var(--umber);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 3px;
+  transition: color 0.25s;
+}
+nav ul a:not(.nav-cta)::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+nav ul a:not(.nav-cta):hover { color: var(--espresso); }
+nav ul a:not(.nav-cta):hover::after { transform: scaleX(1); transform-origin: left; }
 
-    .hero-content {
-      position: relative;
-      text-align: center;
-      padding: 0 1.5rem;
-      max-width: 780px;
-    }
+.nav-cta {
+  border: 1px solid var(--gold);
+  color: var(--gold) !important;
+  padding: 0.55rem 1.5rem;
+  letter-spacing: 0.18em !important;
+  transition: background 0.3s, color 0.3s !important;
+}
+.nav-cta:hover { background: var(--gold); color: var(--white) !important; }
 
-    .hero-eyebrow {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      font-weight: 400;
-      letter-spacing: 0.4em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
-    }
+@media (max-width: 720px) {
+  nav ul li:not(:last-child) { display: none; }
+}
 
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.8rem, 7vw, 5.2rem);
-      font-weight: 300;
-      line-height: 1.15;
-      color: var(--charcoal);
-      margin-bottom: 1rem;
-    }
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
+/* ════════════════════════ HERO ════════════════════════ */
+#hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+}
 
-    .hero-subtitle {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(0.95rem, 2vw, 1.15rem);
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-      margin-bottom: 2.6rem;
-      line-height: 1.9;
-    }
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(7rem, 14vh, 10rem) clamp(1.4rem, 5vw, 4.5rem) clamp(4rem, 9vh, 6rem);
+  position: relative;
+}
 
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--serif-en);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2.2rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: var(--gold);
+}
 
-    .btn-primary {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--white);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      padding: 0.9rem 2.4rem;
-      border: none;
-      border-radius: 2px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.25s, transform 0.15s;
-    }
-    .btn-primary:hover { background: var(--brown); transform: translateY(-1px); }
+.hero-title {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: clamp(2.05rem, 6.2vw, 4.6rem);
+  line-height: 1.32;
+  letter-spacing: -0.015em;
+  color: var(--espresso);
+  margin-bottom: 2rem;
+  word-break: keep-all;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--gold);
+  position: relative;
+  white-space: nowrap;
+}
+.hero-title em::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0.08em;
+  height: 0.42em;
+  background: var(--gold-faint);
+  opacity: 0.55;
+  z-index: -1;
+}
 
-    .btn-ghost {
-      display: inline-block;
-      background: transparent;
-      color: var(--brown);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      padding: 0.9rem 2.4rem;
-      border: 1px solid var(--gold-lt);
-      border-radius: 2px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.25s, color 0.25s;
-    }
-    .btn-ghost:hover { background: var(--cream); }
+.hero-sub {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.6vw, 1.08rem);
+  color: var(--umber);
+  line-height: 2.15;
+  max-width: 30em;
+  margin-bottom: 3rem;
+  word-break: keep-all;
+}
+.hero-sub strong { font-weight: 500; color: var(--ink); }
 
-    .hero-scroll {
-      position: absolute;
-      bottom: 2.4rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--muted);
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--gold-lt), transparent);
-      animation: scrollDrop 1.8s ease-in-out infinite;
-    }
-    @keyframes scrollDrop {
-      0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
-      40%  { opacity: 1; }
-      100% { opacity: 0; transform: scaleY(1); transform-origin: top; }
-    }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
 
-    /* ── SECTION WRAPPER ── */
-    section { padding: 7rem 5%; }
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: var(--espresso);
+  color: var(--ivory);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  padding: 1.05rem 2.4rem;
+  text-decoration: none;
+  border: 1px solid var(--espresso);
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+}
+.btn-solid .arrow { transition: transform 0.3s; font-family: var(--serif-en); }
+.btn-solid:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+.btn-solid:hover .arrow { transform: translateX(5px); }
 
-    .section-tag {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 0.8rem;
-    }
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  color: var(--umber);
+  text-decoration: none;
+  padding: 1.05rem 0.4rem;
+  border-bottom: 1px solid var(--gold-soft);
+  transition: color 0.3s, border-color 0.3s;
+}
+.btn-line:hover { color: var(--gold); border-color: var(--gold); }
 
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 300;
-      color: var(--charcoal);
-      line-height: 1.25;
-      margin-bottom: 1.2rem;
-    }
-    .section-title em { font-style: italic; color: var(--gold); }
+/* 히어로 비주얼 영역 */
+.hero-visual {
+  position: relative;
+  background: linear-gradient(155deg, var(--ivory-soft) 0%, var(--linen) 55%, #ddd2bf 100%);
+  overflow: hidden;
+}
+.hero-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.hero-visual.no-img img { display: none; }
 
-    .section-desc {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 0.97rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.9;
-      max-width: 520px;
-    }
+/* 이미지 없을 때 — 의도된 아트워크처럼 */
+.hero-placeholder {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.hero-visual.no-img .hero-placeholder { display: flex; }
+.hero-placeholder .ring {
+  position: absolute;
+  border: 1px solid rgba(174, 138, 83, 0.28);
+  border-radius: 50%;
+}
+.hero-placeholder .ring:nth-child(1) { width: 58%; aspect-ratio: 1; }
+.hero-placeholder .ring:nth-child(2) { width: 42%; aspect-ratio: 1; border-color: rgba(174, 138, 83, 0.42); }
+.hero-placeholder .word {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: rgba(110, 95, 78, 0.5);
+  letter-spacing: 0.08em;
+  text-align: center;
+  line-height: 1.4;
+}
 
-    .center { text-align: center; }
-    .center .section-desc { margin: 0 auto; }
+.hero-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--ivory) 0%, transparent 18%);
+  pointer-events: none;
+}
 
-    .divider {
-      width: 48px;
-      height: 1px;
-      background: var(--gold-lt);
-      margin: 1.6rem 0;
-    }
-    .center .divider { margin: 1.6rem auto; }
+/* 세로 영문 장식 */
+.hero-side {
+  position: absolute;
+  right: clamp(0.9rem, 2vw, 1.8rem);
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: var(--serif-en);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: rgba(110, 95, 78, 0.55);
+  z-index: 2;
+}
 
-    /* ── DREAM GALLERY ── */
-    #gallery { background: var(--ivory); }
+.hero-scroll {
+  position: absolute;
+  bottom: 2.2rem;
+  left: clamp(1.4rem, 5vw, 4.5rem);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--serif-en);
+  font-size: 0.68rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+.hero-scroll .line {
+  width: 56px;
+  height: 1px;
+  background: var(--gold-soft);
+  position: relative;
+  overflow: hidden;
+}
+.hero-scroll .line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  animation: slideLine 2.2s ease-in-out infinite;
+}
+@keyframes slideLine {
+  0%   { transform: translateX(-100%); }
+  55%  { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
 
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.6rem;
-      margin-top: 3.5rem;
-    }
+@media (max-width: 860px) {
+  #hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-visual { order: -1; height: 44svh; min-height: 300px; }
+  .hero-visual::after { background: linear-gradient(to top, var(--ivory) 0%, transparent 24%); }
+  .hero-copy { padding-top: 3rem; }
+  .hero-side { display: none; }
+  .hero-scroll { display: none; }
+}
 
-    .dream-card {
-      position: relative;
-      border-radius: 4px;
-      overflow: hidden;
-      background: var(--cream);
-      box-shadow: 0 4px 24px var(--shadow);
-      aspect-ratio: 3/4;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .dream-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px var(--shadow); }
+/* ════════════════════════ MARQUEE ════════════════════════ */
+.marquee {
+  border-top: 1px solid rgba(174, 138, 83, 0.22);
+  border-bottom: 1px solid rgba(174, 138, 83, 0.22);
+  padding: 1.1rem 0;
+  overflow: hidden;
+  background: var(--paper);
+}
+.marquee-track {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee span {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.95rem;
+  letter-spacing: 0.24em;
+  color: var(--gold);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+.marquee span::after { content: '✦'; font-style: normal; font-size: 0.6rem; opacity: 0.6; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
 
-    .dream-card img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s;
-    }
-    .dream-card:hover img { transform: scale(1.04); }
+/* ════════════════════════ SECTION COMMON ════════════════════════ */
+section { padding: clamp(5.5rem, 12vh, 9rem) clamp(1.4rem, 5vw, 4.5rem); }
+.wrap { max-width: 1180px; margin: 0 auto; }
 
-    /* 이미지 없을 때 빈 프레임 */
-    .img-frame {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      color: var(--muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      pointer-events: none;
-    }
-    .img-frame svg { opacity: 0.4; }
+.sec-head { margin-bottom: clamp(3rem, 7vh, 5rem); }
+.sec-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--serif-en);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.46em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.4rem;
+}
+.sec-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
 
-    .card-label {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 2rem 1.4rem 1.2rem;
-      background: linear-gradient(transparent, rgba(58,53,48,0.72));
-      color: var(--ivory);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-    }
-    .card-label small {
-      display: block;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      opacity: 0.8;
-      margin-top: 0.2rem;
-    }
+.sec-title {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+  color: var(--espresso);
+  word-break: keep-all;
+}
+.sec-title em { font-style: normal; color: var(--gold); }
 
-    /* ── PROCESS ── */
-    #process { background: var(--ivory-dk); }
+.sec-desc {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 0.98rem;
+  color: var(--umber);
+  line-height: 2.1;
+  max-width: 34em;
+  margin-top: 1.4rem;
+  word-break: keep-all;
+}
 
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 0;
-      margin-top: 4rem;
-      position: relative;
-    }
+.center { text-align: center; }
+.center .sec-eyebrow::before { display: none; }
+.center .sec-eyebrow::after { display: none; }
+.center .sec-desc { margin-left: auto; margin-right: auto; }
 
-    .steps::before {
-      content: '';
-      position: absolute;
-      top: 44px;
-      left: 12.5%;
-      right: 12.5%;
-      height: 1px;
-      background: var(--cream);
-    }
+/* ════════════════════════ MANIFESTO (다크) ════════════════════════ */
+#manifesto {
+  background: var(--espresso);
+  color: var(--ivory);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#manifesto::before {
+  content: '“';
+  position: absolute;
+  top: -0.18em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--serif-en);
+  font-size: clamp(14rem, 30vw, 24rem);
+  line-height: 1;
+  color: rgba(201, 173, 125, 0.07);
+  pointer-events: none;
+}
+.mani-small {
+  font-family: var(--serif-en);
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin-bottom: 2.4rem;
+}
+.mani-title {
+  font-family: var(--serif-ko);
+  font-weight: 200;
+  font-size: clamp(1.7rem, 4.4vw, 3rem);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  word-break: keep-all;
+  max-width: 22em;
+  margin: 0 auto 2.6rem;
+}
+.mani-title em { font-style: normal; color: var(--gold-soft); }
+.mani-body {
+  font-family: var(--serif-ko);
+  font-weight: 200;
+  font-size: 0.95rem;
+  line-height: 2.3;
+  color: rgba(247, 243, 236, 0.62);
+  max-width: 33em;
+  margin: 0 auto;
+  word-break: keep-all;
+}
+.mani-sig {
+  margin-top: 3rem;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.05rem;
+  letter-spacing: 0.16em;
+  color: var(--gold-soft);
+}
 
-    .step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 0 2rem;
-    }
+/* ════════════════════════ GALLERY — 로망 4선 ════════════════════════ */
+#gallery { background: var(--ivory); }
 
-    .step-num {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: var(--ivory);
-      border: 1.5px solid var(--gold-lt);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: var(--gold);
-      margin-bottom: 1.8rem;
-      position: relative;
-      z-index: 1;
-      flex-shrink: 0;
-    }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.6rem, 3.5vw, 3rem) clamp(1.6rem, 4vw, 4rem);
+}
+.gallery-grid .dream:nth-child(even) { transform: translateY(clamp(1.5rem, 4vw, 4rem)); }
 
-    .step-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--gold);
-    }
+.dream { text-decoration: none; display: block; }
 
-    .step h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      font-weight: 400;
-      color: var(--charcoal);
-      margin-bottom: 0.7rem;
-      letter-spacing: 0.03em;
-    }
+.dream-media {
+  position: relative;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background: var(--linen);
+  box-shadow: 0 18px 50px -18px var(--shadow-deep);
+}
+.dream-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), filter 1s;
+}
+.dream:hover .dream-media img { transform: scale(1.045); }
 
-    .step p {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 0.88rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.85;
-    }
+/* 이미지 없을 때 placeholder — 카드별 톤 */
+.dream-ph {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  padding: 1.6rem;
+  overflow: hidden;
+}
+.dream-media.no-img .dream-ph { display: flex; }
+.dream-media.no-img img { display: none; }
+.dream-ph .big-num {
+  position: absolute;
+  top: -0.16em;
+  right: 0.04em;
+  font-family: var(--serif-en);
+  font-weight: 300;
+  font-size: clamp(7rem, 14vw, 11rem);
+  line-height: 1;
+  color: rgba(110, 95, 78, 0.14);
+}
+.dream-ph .ph-word {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.05rem;
+  letter-spacing: 0.2em;
+  color: rgba(110, 95, 78, 0.55);
+}
+.ph-1 { background: linear-gradient(160deg, #f0e9dc, #e0d4bd); }
+.ph-2 { background: linear-gradient(160deg, #ece4d8, #d8cbc0); }
+.ph-3 { background: linear-gradient(160deg, #f1eadb, #ddd2b8); }
+.ph-4 { background: linear-gradient(160deg, #ede7dd, #d6ccc2); }
 
-    /* ── UPLOAD & FORM ── */
-    #apply {
-      background: var(--ivory);
-    }
+.dream-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1.1rem;
+  margin-top: 1.5rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid rgba(174, 138, 83, 0.25);
+}
+.dream-num {
+  font-family: var(--serif-en);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+.dream-name {
+  font-family: var(--serif-ko);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  color: var(--espresso);
+  letter-spacing: 0.02em;
+}
+.dream-en {
+  margin-left: auto;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--mist);
+  white-space: nowrap;
+}
+.dream-line {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--umber);
+  line-height: 2;
+  margin-top: 0.9rem;
+  word-break: keep-all;
+}
+.dream-line q {
+  quotes: '“' '”';
+  display: block;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
 
-    .apply-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      margin-top: 4rem;
-      align-items: start;
-    }
+@media (max-width: 720px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-grid .dream:nth-child(even) { transform: none; }
+  .dream-en { display: none; }
+}
 
-    /* Upload zone */
-    .upload-zone {
-      border: 1.5px dashed var(--gold-lt);
-      border-radius: 4px;
-      background: var(--ivory-dk);
-      padding: 3rem 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-      position: relative;
-    }
-    .upload-zone:hover,
-    .upload-zone.drag-over { background: var(--cream); border-color: var(--gold); }
+/* ════════════════════════ PILLARS — 약속 ════════════════════════ */
+#pillars { background: var(--paper); border-top: 1px solid rgba(174, 138, 83, 0.16); border-bottom: 1px solid rgba(174, 138, 83, 0.16); }
 
-    .upload-zone input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-    }
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(2rem, 4vw, 0rem);
+}
+.pillar {
+  padding: 0 clamp(0rem, 3vw, 3rem);
+  position: relative;
+}
+.pillar + .pillar::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.4rem; bottom: 0.4rem;
+  width: 1px;
+  background: rgba(174, 138, 83, 0.22);
+}
+.pillar-num {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2.4rem;
+  color: var(--gold-soft);
+  line-height: 1;
+  margin-bottom: 1.4rem;
+}
+.pillar h3 {
+  font-family: var(--serif-ko);
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: var(--espresso);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.04em;
+}
+.pillar .en {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 1.1rem;
+}
+.pillar p {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 0.89rem;
+  color: var(--umber);
+  line-height: 2.05;
+  word-break: keep-all;
+}
+@media (max-width: 820px) {
+  .pillars-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .pillar + .pillar::before { display: none; }
+  .pillar { padding: 0; }
+}
 
-    .upload-icon {
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      background: var(--cream);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.2rem;
-      color: var(--gold);
-    }
+/* ════════════════════════ PROCESS ════════════════════════ */
+#process { background: var(--ivory); }
 
-    .upload-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 400;
-      color: var(--charcoal);
-      margin-bottom: 0.5rem;
-    }
+.process-list { max-width: 760px; margin: 0 auto; }
+.proc {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: clamp(1.4rem, 4vw, 3rem);
+  padding: 2.6rem 0;
+  border-bottom: 1px solid rgba(174, 138, 83, 0.2);
+  align-items: start;
+}
+.proc:first-child { border-top: 1px solid rgba(174, 138, 83, 0.2); }
+.proc-num {
+  font-family: var(--serif-en);
+  font-weight: 300;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--gold-soft);
+  padding-top: 0.2rem;
+}
+.proc-num small {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.3em;
+  color: var(--mist);
+  margin-top: 0.5rem;
+}
+.proc h3 {
+  font-family: var(--serif-ko);
+  font-weight: 400;
+  font-size: 1.18rem;
+  color: var(--espresso);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.02em;
+}
+.proc p {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 0.91rem;
+  color: var(--umber);
+  line-height: 2.05;
+  word-break: keep-all;
+}
+.proc p strong { font-weight: 500; color: var(--ink); }
+@media (max-width: 600px) {
+  .proc { grid-template-columns: 1fr; gap: 0.8rem; padding: 2.1rem 0; }
+  .proc-num { font-size: 2rem; }
+}
 
-    .upload-hint {
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
+.process-note {
+  max-width: 760px;
+  margin: 3rem auto 0;
+  text-align: center;
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 0.92rem;
+  color: var(--mist);
+  word-break: keep-all;
+}
+.process-note em { font-style: normal; color: var(--gold); }
 
-    .preview-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      margin-top: 1.4rem;
-    }
-    .preview-item {
-      aspect-ratio: 1;
-      border-radius: 3px;
-      overflow: hidden;
-      background: var(--cream);
-      position: relative;
-    }
-    .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .preview-item .remove-btn {
-      position: absolute;
-      top: 3px; right: 3px;
-      width: 20px; height: 20px;
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 0.7rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-    }
+/* ════════════════════════ FAQ ════════════════════════ */
+#faq { background: var(--paper); border-top: 1px solid rgba(174, 138, 83, 0.16); }
+.faq-list { max-width: 760px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid rgba(174, 138, 83, 0.22); }
+.faq-item:first-child { border-top: 1px solid rgba(174, 138, 83, 0.22); }
+.faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  text-align: left;
+  padding: 1.7rem 0.2rem;
+  font-family: var(--serif-ko);
+  font-weight: 400;
+  font-size: 1.02rem;
+  color: var(--espresso);
+  letter-spacing: 0.01em;
+  word-break: keep-all;
+}
+.faq-q .q-mark {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.faq-q .toggle {
+  margin-left: auto;
+  font-family: var(--serif-en);
+  font-weight: 300;
+  font-size: 1.3rem;
+  color: var(--gold);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  flex-shrink: 0;
+  line-height: 1;
+}
+.faq-item.open .toggle { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq-a-inner {
+  padding: 0 0.2rem 1.8rem 2.4rem;
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 0.91rem;
+  color: var(--umber);
+  line-height: 2.1;
+  word-break: keep-all;
+}
+@media (max-width: 600px) { .faq-a-inner { padding-left: 0.2rem; } }
 
-    /* Form */
-    .apply-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
+/* ════════════════════════ APPLY ════════════════════════ */
+#apply { background: var(--ivory); }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
+.apply-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(2.5rem, 6vw, 5.5rem);
+  align-items: start;
+}
+@media (max-width: 880px) { .apply-grid { grid-template-columns: 1fr; } }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+.apply-intro .sec-title { font-size: clamp(1.8rem, 3.6vw, 2.7rem); }
 
-    .field label {
-      font-size: 0.78rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      color: var(--brown);
-      text-transform: uppercase;
-    }
-    .field label .req { color: var(--gold); margin-left: 2px; }
+.upload-block { margin-top: 2.6rem; }
+.upload-label {
+  font-family: var(--serif-en);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 1rem;
+}
 
-    .field input,
-    .field select,
-    .field textarea {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--charcoal);
-      background: var(--ivory-dk);
-      border: 1px solid var(--cream);
-      border-radius: 2px;
-      padding: 0.75rem 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-    }
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: var(--gold-lt);
-      background: var(--white);
-    }
-    .field textarea { resize: vertical; min-height: 100px; }
+.upload-zone {
+  position: relative;
+  border: 1px dashed var(--gold-soft);
+  background: var(--paper);
+  padding: 2.8rem 1.8rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+}
+.upload-zone:hover, .upload-zone.drag-over { background: var(--ivory-soft); border-color: var(--gold); }
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0;
+  opacity: 0; cursor: pointer;
+  width: 100%; height: 100%;
+}
+.upload-icon {
+  width: 52px; height: 52px;
+  margin: 0 auto 1.1rem;
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+}
+.upload-title {
+  font-family: var(--serif-ko);
+  font-weight: 400;
+  font-size: 1.02rem;
+  color: var(--espresso);
+  margin-bottom: 0.4rem;
+}
+.upload-hint { font-size: 0.78rem; color: var(--mist); line-height: 1.9; }
 
-    .select-wrap { position: relative; }
-    .select-wrap::after {
-      content: '▾';
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      pointer-events: none;
-      font-size: 0.8rem;
-    }
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.55rem;
+  margin-top: 1.1rem;
+}
+.preview-item {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--linen);
+  position: relative;
+}
+.preview-item img { width: 100%; height: 100%; object-fit: cover; }
+.preview-item .remove-btn {
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 20px; height: 20px;
+  background: rgba(46, 40, 35, 0.65);
+  color: var(--ivory);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.65rem;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
 
-    .checkbox-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .checkbox-label {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.7rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.5;
-      cursor: pointer;
-    }
-    .checkbox-label input[type="checkbox"] {
-      margin-top: 2px;
-      accent-color: var(--gold);
-      flex-shrink: 0;
-    }
+.apply-quiet {
+  margin-top: 2rem;
+  padding: 1.3rem 1.5rem;
+  border-left: 1px solid var(--gold);
+  background: var(--paper);
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--umber);
+  line-height: 2.05;
+  word-break: keep-all;
+}
 
-    .form-notice {
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.7;
-      padding: 1rem;
-      background: var(--ivory-dk);
-      border-left: 2px solid var(--gold-lt);
-    }
+/* 폼 */
+.apply-form { display: flex; flex-direction: column; gap: 1.6rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+@media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
 
-    .submit-btn {
-      width: 100%;
-      background: var(--gold);
-      color: var(--white);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      padding: 1.1rem;
-      border: none;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: background 0.25s;
-      margin-top: 0.5rem;
-    }
-    .submit-btn:hover { background: var(--brown); }
+.field { display: flex; flex-direction: column; gap: 0.5rem; }
+.field label {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  color: var(--umber);
+  text-transform: uppercase;
+}
+.field label .req { color: var(--gold); margin-left: 1px; }
 
-    /* ── TOAST ── */
-    #toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--charcoal);
-      color: var(--ivory);
-      font-size: 0.88rem;
-      font-weight: 300;
-      padding: 0.9rem 2rem;
-      border-radius: 3px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.2);
-      z-index: 999;
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-      white-space: nowrap;
-    }
-    #toast.show { transform: translateX(-50%) translateY(0); }
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 300;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(174, 138, 83, 0.35);
+  padding: 0.65rem 0.1rem;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.25s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--mist); font-weight: 300; }
+.field input:focus, .field select:focus, .field textarea:focus { border-bottom-color: var(--gold); }
+.field textarea { resize: vertical; min-height: 110px; line-height: 1.9; }
+.field select { cursor: pointer; }
+.field select:invalid, .field select option[value=""] { color: var(--mist); }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--charcoal);
-      color: var(--muted);
-      text-align: center;
-      padding: 3.5rem 5%;
-    }
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 300;
-      color: var(--gold);
-      letter-spacing: 0.15em;
-      margin-bottom: 0.8rem;
-    }
-    footer p {
-      font-size: 0.78rem;
-      font-weight: 300;
-      line-height: 1.9;
-      letter-spacing: 0.04em;
-    }
-    footer a { color: var(--gold-lt); text-decoration: none; }
+.select-wrap { position: relative; }
+.select-wrap select { width: 100%; }
+.select-wrap::after {
+  content: '↓';
+  font-family: var(--serif-en);
+  position: absolute;
+  right: 0.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  pointer-events: none;
+  font-size: 0.85rem;
+}
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .apply-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .steps::before { display: none; }
-    }
-    @media (max-width: 640px) {
-      nav ul { display: none; }
-      .form-row { grid-template-columns: 1fr; }
-      .steps { gap: 3rem; }
-      section { padding: 5rem 6%; }
-    }
-  </style>
+.checkbox-group { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.4rem; }
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  font-size: 0.8rem;
+  color: var(--mist);
+  line-height: 1.7;
+  cursor: pointer;
+  word-break: keep-all;
+}
+.checkbox-label input[type="checkbox"] {
+  margin-top: 4px;
+  accent-color: var(--gold);
+  flex-shrink: 0;
+  width: 14px; height: 14px;
+}
+
+.submit-btn {
+  width: 100%;
+  background: var(--espresso);
+  color: var(--ivory);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  padding: 1.25rem;
+  border: 1px solid var(--espresso);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+  margin-top: 0.6rem;
+}
+.submit-btn:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+
+/* ════════════════════════ TOAST ════════════════════════ */
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: var(--espresso);
+  color: var(--ivory);
+  font-family: var(--serif-ko);
+  font-size: 0.88rem;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  padding: 1rem 2.2rem;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+  z-index: 999;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  white-space: nowrap;
+  border-top: 1px solid var(--gold);
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+@media (max-width: 560px) { #toast { white-space: normal; width: calc(100% - 2.4rem); text-align: center; } }
+
+/* ════════════════════════ FOOTER ════════════════════════ */
+footer {
+  background: var(--espresso);
+  color: rgba(247, 243, 236, 0.55);
+  padding: clamp(4rem, 9vh, 6rem) clamp(1.4rem, 5vw, 4.5rem) 3rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: var(--serif-ko);
+  font-weight: 300;
+  font-size: 1.7rem;
+  letter-spacing: 0.4em;
+  color: var(--ivory);
+  margin-bottom: 0.5rem;
+}
+.footer-logo .comma { color: var(--gold-soft); }
+.footer-en {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.82rem;
+  letter-spacing: 0.32em;
+  color: var(--gold-soft);
+  margin-bottom: 2.8rem;
+}
+footer .contact {
+  font-size: 0.82rem;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  line-height: 2.2;
+  margin-bottom: 2.6rem;
+}
+footer .contact a { color: var(--gold-soft); text-decoration: none; }
+footer .legal {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba(247, 243, 236, 0.35);
+  padding-top: 2rem;
+  border-top: 1px solid rgba(247, 243, 236, 0.1);
+}
+footer .legal a { color: rgba(247, 243, 236, 0.5); text-decoration: none; margin: 0 0.5rem; }
+footer .legal a:hover { color: var(--gold-soft); }
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">다시 <span>그날</span></a>
+<!-- ═══════════ NAV ═══════════ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">다시<span class="comma">,</span> 그날<small>Dasi, Geunal</small></a>
   <ul>
-    <li><a href="#gallery">로망 예시</a></li>
-    <li><a href="#apply" class="nav-cta">신청하기</a></li>
+    <li><a href="#gallery">로망 갤러리</a></li>
+    <li><a href="#process">진행 방법</a></li>
+    <li><a href="#faq">자주 묻는 질문</a></li>
+    <li><a href="#apply" class="nav-cta">로망 들려주기</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<main>
+
+<!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
-  <div class="hero-bg">
-    <img id="heroImg" src="images/hero.jpg" alt="웨딩 화보" />
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <h1 class="hero-title">그날의 설렘을<br /><em>다시, 영원히</em></h1>
-    <p class="hero-subtitle">
-      평범한 일상 사진 몇 장이면 충분합니다.
+  <div class="hero-copy">
+    <p class="hero-eyebrow reveal">AI Wedding Atelier</p>
+    <h1 class="hero-title reveal" style="--d:0.08s">
+      마음속에만 있던<br />
+      그 장면, <em>저희가 꺼내드립니다</em>
+    </h1>
+    <p class="hero-sub reveal" style="--d:0.16s">
+      AI를 몰라도 괜찮습니다.<br />
+      <strong>막연한 로망 한 줄과 일상 사진 몇 장</strong>이면 충분합니다.<br />
+      듣고, 정리하고, 사람의 눈으로 검수해서 —<br />
+      두 분만의 웨딩 화보로 완성해 드립니다.
     </p>
-    <div class="hero-actions">
-      <a href="#apply" class="btn-primary">지금 신청하기</a>
-      <a href="#gallery" class="btn-ghost">예시 보기</a>
+    <div class="hero-actions reveal" style="--d:0.24s">
+      <a href="#apply" class="btn-solid">나의 로망 들려주기 <span class="arrow">→</span></a>
+      <a href="#gallery" class="btn-line">로망 갤러리 보기</a>
     </div>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>scroll</span>
+  <div class="hero-visual" id="heroVisual">
+    <div class="hero-placeholder">
+      <span class="ring"></span>
+      <span class="ring"></span>
+      <p class="word">That day,<br />once more</p>
+    </div>
+    <img src="images/hero.jpg" alt="다시, 그날 — AI 웨딩 화보" id="heroImg" />
+    <span class="hero-side">Dasi, Geunal — Bespoke AI Wedding Portraits</span>
   </div>
+  <div class="hero-scroll"><span class="line"></span>Scroll</div>
 </section>
 
-<!-- GALLERY -->
+<!-- ═══════════ MARQUEE ═══════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Curation</span><span>Care</span><span>Trust</span><span>해외 드림 화보</span><span>한복 웨딩</span><span>다시, 그날</span>
+    <span>Curation</span><span>Care</span><span>Trust</span><span>해외 드림 화보</span><span>한복 웨딩</span><span>다시, 그날</span>
+  </div>
+</div>
+
+<!-- ═══════════ MANIFESTO ═══════════ -->
+<section id="manifesto">
+  <p class="mani-small reveal">Our Promise</p>
+  <h2 class="mani-title reveal" style="--d:0.08s">
+    셀프 생성 툴이 아닙니다.<br />
+    당신의 이야기를 듣는 <em>아틀리에</em>입니다.
+  </h2>
+  <p class="mani-body reveal" style="--d:0.16s">
+    프롬프트를 공부하실 필요도, 어색한 결과물에 실망하실 필요도 없습니다.
+    “이런 장면이면 좋겠어요” 한마디를 저희가 받아 적고,
+    수십 장의 시안 가운데 두 분께 어울리는 것만 골라,
+    어색한 부분은 사람의 눈으로 다듬어 보여드립니다.
+    당신은 막연한 로망만 던지세요. 나머지는 저희가 합니다.
+  </p>
+  <p class="mani-sig reveal" style="--d:0.24s">— Dasi, Geunal</p>
+</section>
+
+<!-- ═══════════ GALLERY — 네 가지 로망 ═══════════ -->
 <section id="gallery">
-  <div class="center">
-    <span class="section-tag">Dream Gallery</span>
-    <h2 class="section-title">이런 화보를<br /><em>만들어드립니다</em></h2>
-    <div class="divider"></div>
-    <p class="section-desc">
-      로맨틱 야외, 클래식 스튜디오, 시네마틱 무드, 동화 같은 장면까지. 원하는 분위기를 골라보세요. 상상하시는 대로, 원하시는 장소에.
-    </p>
-  </div>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-eyebrow reveal">Four Dreams</p>
+      <h2 class="sec-title reveal" style="--d:0.08s">사람들이 가장 많이<br />간직하고 있던 <em>네 가지 로망</em></h2>
+      <p class="sec-desc reveal" style="--d:0.16s">
+        어떤 로망이든 좋습니다. 아래 네 가지가 아니어도,
+        “이런 게 가능할까요?” 하고 편하게 물어봐 주세요.
+      </p>
+    </div>
 
-  <div class="cards-grid">
-    <!-- Card 1 -->
-    <div class="dream-card">
-      <div class="img-frame" id="frame1">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21 15 16 10 5 21"/>
-        </svg>
-        <span>dream-1.jpg</span>
-      </div>
-      <img data-src="images/dream-1.jpg" alt="로맨틱 야외 화보" class="lazy-img" />
-      <div class="card-label">로맨틱 야외<small>Golden Hour · Garden</small></div>
-    </div>
-    <!-- Card 2 -->
-    <div class="dream-card">
-      <div class="img-frame" id="frame2">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21 15 16 10 5 21"/>
-        </svg>
-        <span>dream-2.jpg</span>
-      </div>
-      <img data-src="images/dream-2.jpg" alt="클래식 스튜디오 화보" class="lazy-img" />
-      <div class="card-label">클래식 스튜디오<small>Timeless · Elegant</small></div>
-    </div>
-    <!-- Card 3 -->
-    <div class="dream-card">
-      <div class="img-frame" id="frame3">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21 15 16 10 5 21"/>
-        </svg>
-        <span>dream-3.jpg</span>
-      </div>
-      <img data-src="images/dream-3.jpg" alt="시네마틱 무드 화보" class="lazy-img" />
-      <div class="card-label">시네마틱 무드<small>Cinematic · Dramatic</small></div>
-    </div>
-    <!-- Card 4 -->
-    <div class="dream-card">
-      <div class="img-frame" id="frame4">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21 15 16 10 5 21"/>
-        </svg>
-        <span>dream-4.jpg</span>
-      </div>
-      <img data-src="images/dream-4.jpg" alt="동화 속 화보" class="lazy-img" />
-      <div class="card-label">동화 속 한 장면<small>Fairytale · Dreamy</small></div>
+    <div class="gallery-grid">
+      <!-- 01 해외 드림 화보 -->
+      <a href="#apply" class="dream reveal">
+        <div class="dream-media">
+          <div class="dream-ph ph-1"><span class="big-num">01</span><span class="ph-word">Santorini, Paris…</span></div>
+          <img src="images/dream-1.jpg" alt="해외 드림 화보 — 가지 못했던 그곳에서" loading="lazy" />
+        </div>
+        <div class="dream-meta">
+          <span class="dream-num">01</span>
+          <span class="dream-name">해외 드림 화보</span>
+          <span class="dream-en">Overseas Dream</span>
+        </div>
+        <p class="dream-line">
+          <q>산토리니에서 찍고 싶었는데, 그땐 갈 수가 없었어요.</q>
+          비행기표 없이 떠나는 화보. 그 골목, 그 바다, 그 노을 앞에 두 분을 세워드립니다.
+        </p>
+      </a>
+
+      <!-- 02 함께하지 못한 사람과 -->
+      <a href="#apply" class="dream reveal" style="--d:0.1s">
+        <div class="dream-media">
+          <div class="dream-ph ph-2"><span class="big-num">02</span><span class="ph-word">Together, again</span></div>
+          <img src="images/dream-2.jpg" alt="함께하지 못한 사람과 — 그리운 얼굴과 나란히" loading="lazy" />
+        </div>
+        <div class="dream-meta">
+          <span class="dream-num">02</span>
+          <span class="dream-name">함께하지 못한 사람과</span>
+          <span class="dream-en">With the One We Miss</span>
+        </div>
+        <p class="dream-line">
+          <q>그날, 아버지가 곁에 계셨더라면.</q>
+          그리운 분의 사진 몇 장이면, 나란히 선 한 장면을 만들 수 있습니다.
+          가장 조심스럽게, 가장 정성껏 진행하는 작업입니다.
+        </p>
+      </a>
+
+      <!-- 03 포기했던 컨셉 -->
+      <a href="#apply" class="dream reveal">
+        <div class="dream-media">
+          <div class="dream-ph ph-3"><span class="big-num">03</span><span class="ph-word">The one we let go</span></div>
+          <img src="images/dream-3.jpg" alt="포기했던 컨셉 — 한복 웨딩, 야간 촬영, 그때 접어둔 장면" loading="lazy" />
+        </div>
+        <div class="dream-meta">
+          <span class="dream-num">03</span>
+          <span class="dream-name">포기했던 컨셉</span>
+          <span class="dream-en">The Scene We Gave Up</span>
+        </div>
+        <p class="dream-line">
+          <q>한복 웨딩도 하고 싶었는데, 예산이 안 됐죠.</q>
+          시간과 비용 때문에 접어두었던 모든 장면 — 한복, 야간 촬영, 호텔 스냅까지 다시 펼쳐드립니다.
+        </p>
+      </a>
+
+      <!-- 04 다시 찍는 셀프 웨딩 -->
+      <a href="#apply" class="dream reveal" style="--d:0.1s">
+        <div class="dream-media">
+          <div class="dream-ph ph-4"><span class="big-num">04</span><span class="ph-word">Just the two of us</span></div>
+          <img src="images/dream-4.jpg" alt="다시 찍는 셀프 웨딩 — 식 없이도 화보는 남기고 싶어서" loading="lazy" />
+        </div>
+        <div class="dream-meta">
+          <span class="dream-num">04</span>
+          <span class="dream-name">다시 찍는 셀프 웨딩</span>
+          <span class="dream-en">Self Wedding, Redone</span>
+        </div>
+        <p class="dream-line">
+          <q>식은 안 했지만, 화보 한 장은 남기고 싶었어요.</q>
+          작은 약속으로 시작한 두 분에게도, 제대로 된 ‘그날’ 한 장을 만들어드립니다.
+        </p>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- APPLY -->
-<section id="apply">
-  <div class="center">
-    <span class="section-tag">Apply Now</span>
-    <h2 class="section-title">지금 바로<br /><em>신청</em>해보세요</h2>
-    <div class="divider"></div>
-    <p class="section-desc">소중한 날의 기억을 더욱 아름답게 간직하세요.</p>
-  </div>
-
-  <div class="apply-grid">
-    <!-- Upload -->
-    <div>
-      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--brown);margin-bottom:1rem;letter-spacing:0.04em;">사진 업로드</p>
-      <div class="upload-zone" id="uploadZone">
-        <input type="file" id="fileInput" multiple accept="image/*" />
-        <div class="upload-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
-        </div>
-        <p class="upload-title">사진을 끌어다 놓거나 클릭하세요</p>
-        <p class="upload-hint">
-          JPG, PNG, HEIC 지원 · 파일당 최대 20MB<br />
-          5–10장 권장 (얼굴이 선명하게 나온 사진)
+<!-- ═══════════ PILLARS — 세 가지 약속 ═══════════ -->
+<section id="pillars">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="sec-eyebrow reveal">Why Atelier</p>
+      <h2 class="sec-title reveal" style="--d:0.08s">저희가 지키는 <em>세 가지</em></h2>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar reveal">
+        <p class="pillar-num">I.</p>
+        <h3>큐레이션</h3>
+        <span class="en">Curation</span>
+        <p>
+          막연한 바람을 구체적인 장면으로 옮기는 일부터 저희 몫입니다.
+          수십 장의 시안 중 어설픈 것은 거르고, 두 분께 어울리는 것만 추려 보여드립니다.
         </p>
       </div>
-      <div class="preview-grid" id="previewGrid"></div>
+      <div class="pillar reveal" style="--d:0.1s">
+        <p class="pillar-num">II.</p>
+        <h3>감정 케어</h3>
+        <span class="en">Emotional Care</span>
+        <p>
+          그리움이 담긴 의뢰일수록 조심스럽게 다룹니다.
+          민감한 장면은 반드시 먼저 여쭙고, 두 분의 속도에 맞춰 진행합니다.
+        </p>
+      </div>
+      <div class="pillar reveal" style="--d:0.2s">
+        <p class="pillar-num">III.</p>
+        <h3>신뢰</h3>
+        <span class="en">Trust</span>
+        <p>
+          보내주신 사진은 화보 제작에만 사용합니다.
+          외부에 공개하지 않으며, 작업 완료 후 요청하시면 즉시 폐기합니다.
+        </p>
+      </div>
     </div>
-
-    <!-- Form -->
-    <form class="apply-form" id="applyForm" novalidate>
-      <div class="form-row">
-        <div class="field">
-          <label>이름 <span class="req">*</span></label>
-          <input type="text" name="name" placeholder="홍길동" required />
-        </div>
-        <div class="field">
-          <label>연락처 <span class="req">*</span></label>
-          <input type="tel" name="phone" placeholder="010-0000-0000" required />
-        </div>
-      </div>
-
-      <div class="field">
-        <label>이메일 <span class="req">*</span></label>
-        <input type="email" name="email" placeholder="example@email.com" required />
-      </div>
-
-      <div class="field">
-        <label>화보 컨셉 <span class="req">*</span></label>
-        <div class="select-wrap">
-          <select name="concept" required>
-            <option value="">원하는 분위기를 선택해주세요</option>
-            <option value="romantic">로맨틱 야외 (Golden Hour)</option>
-            <option value="classic">클래식 스튜디오 (Timeless)</option>
-            <option value="cinematic">시네마틱 무드 (Dramatic)</option>
-            <option value="fairytale">동화 속 한 장면 (Dreamy)</option>
-            <option value="custom">직접 입력 (아래에 설명)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>웨딩 날짜 (선택)</label>
-        <input type="date" name="weddingDate" />
-      </div>
-
-      <div class="field">
-        <label>요청 사항</label>
-        <textarea name="message" placeholder="원하는 분위기, 포함하고 싶은 소품, 특별히 고려해야 할 사항 등을 자유롭게 적어주세요."></textarea>
-      </div>
-
-      <div class="form-notice">
-        📌 접수 후 1–2 영업일 내 담당자가 연락드립니다. 정확한 결과를 위해 다양한 각도의 사진을 함께 업로드해주세요.
-      </div>
-
-      <div class="checkbox-group">
-        <label class="checkbox-label">
-          <input type="checkbox" name="privacy" required />
-          <span>[필수] 개인정보 수집 및 이용에 동의합니다. 수집된 정보는 서비스 제공 목적으로만 사용됩니다.</span>
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" name="marketing" />
-          <span>[선택] 신규 컨셉 및 이벤트 안내 수신에 동의합니다.</span>
-        </label>
-      </div>
-
-      <button type="submit" class="submit-btn">신청서 제출하기</button>
-    </form>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══════════ PROCESS ═══════════ -->
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="sec-eyebrow reveal">How It Works</p>
+      <h2 class="sec-title reveal" style="--d:0.08s">당신은 <em>로망만</em>,<br />나머지는 저희가</h2>
+    </div>
+
+    <div class="process-list">
+      <div class="proc reveal">
+        <p class="proc-num">01<small>Tell us</small></p>
+        <div>
+          <h3>로망 남기기</h3>
+          <p>일상 사진 5–10장과 막연한 바람 한 줄. <strong>“바닷가였으면 좋겠어요”</strong> 정도면 충분합니다. 구체적이지 않아도 괜찮습니다.</p>
+        </div>
+      </div>
+      <div class="proc reveal">
+        <p class="proc-num">02<small>Listen</small></p>
+        <div>
+          <h3>듣고 정리하기</h3>
+          <p>담당자가 직접 연락드려 원하시는 장면을 함께 구체화합니다. 분위기, 의상, 함께하고 싶은 분까지 — 이야기 나누듯 편하게.</p>
+        </div>
+      </div>
+      <div class="proc reveal">
+        <p class="proc-num">03<small>Craft</small></p>
+        <div>
+          <h3>만들고 검수하기</h3>
+          <p>시안을 만들고, <strong>사람의 눈으로 검수하고</strong>, 다시 다듬습니다. 어색한 손, 낯선 표정이 남지 않도록 몇 번이고 반복합니다.</p>
+        </div>
+      </div>
+      <div class="proc reveal">
+        <p class="proc-num">04<small>Deliver</small></p>
+        <div>
+          <h3>전달, 그리고 케어</h3>
+          <p>완성본을 받아보신 뒤에도 끝이 아닙니다. 마음에 걸리는 부분이 있다면 말씀해 주세요. 끝까지 살펴드립니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="process-note reveal">접수 후 <em>1–2 영업일 내</em> 담당자가 연락드립니다.</p>
+  </div>
+</section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="sec-eyebrow reveal">Questions</p>
+      <h2 class="sec-title reveal" style="--d:0.08s">자주 묻는 <em>질문</em></h2>
+    </div>
+
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span class="q-mark">Q.</span>AI를 전혀 다룰 줄 몰라도 되나요?
+          <span class="toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          네, 그러시라고 있는 서비스입니다. 프롬프트도, 프로그램도 만지실 일이 없습니다.
+          사진을 보내주시고 원하시는 분위기를 말로 들려주시면, 만들고 고르고 다듬는 일은 전부 저희가 합니다.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span class="q-mark">Q.</span>어떤 사진을 보내야 하나요?
+          <span class="toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          얼굴이 선명하게 나온 일상 사진 5–10장이면 충분합니다. 정면·측면 등 다양한 각도가 섞여 있을수록 좋고,
+          꼭 잘 나온 사진이 아니어도 괜찮습니다. 휴대폰 사진이면 충분합니다.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span class="q-mark">Q.</span>돌아가신 가족과 함께하는 사진도 가능한가요?
+          <span class="toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          네, 가능합니다. 그리고 저희가 가장 조심스럽게 진행하는 작업입니다.
+          그분의 사진 몇 장을 보내주시면, 장면 하나하나 먼저 여쭙고 확인받으며 만들어 갑니다.
+          서두르지 않으니, 준비되셨을 때 편하게 말씀해 주세요.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span class="q-mark">Q.</span>보낸 사진은 어떻게 관리되나요?
+          <span class="toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          보내주신 사진은 화보 제작 목적으로만 사용하며, 외부에 공개하거나 다른 작업에 활용하지 않습니다.
+          작업이 끝난 뒤 요청하시면 원본과 작업 파일을 즉시 폐기합니다.
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ APPLY ═══════════ -->
+<section id="apply">
+  <div class="wrap">
+    <div class="apply-grid">
+
+      <div class="apply-intro">
+        <p class="sec-eyebrow reveal">Begin</p>
+        <h2 class="sec-title reveal" style="--d:0.08s">당신의 로망을<br /><em>들려주세요</em></h2>
+        <p class="sec-desc reveal" style="--d:0.16s">
+          잘 정리되지 않아도 괜찮습니다.<br />
+          한 줄의 바람과 사진 몇 장이면, 거기서부터 저희가 시작합니다.
+        </p>
+
+        <div class="upload-block reveal" style="--d:0.2s">
+          <span class="upload-label">Photos · 사진 업로드</span>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" multiple accept="image/*" aria-label="사진 업로드" />
+            <div class="upload-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <p class="upload-title">사진을 끌어다 놓거나 클릭하세요</p>
+            <p class="upload-hint">JPG · PNG · HEIC, 파일당 최대 20MB<br />얼굴이 선명한 사진 5–10장 권장</p>
+          </div>
+          <div class="preview-grid" id="previewGrid"></div>
+        </div>
+
+        <div class="apply-quiet reveal" style="--d:0.26s">
+          함께하고 싶은 분의 사진이 있다면 같이 올려주세요.
+          민감한 의뢰일수록 천천히, 먼저 여쭙고 진행합니다.
+        </div>
+      </div>
+
+      <form class="apply-form reveal" id="applyForm" novalidate style="--d:0.14s">
+        <div class="form-row">
+          <div class="field">
+            <label>이름 <span class="req">*</span></label>
+            <input type="text" name="name" placeholder="성함을 적어주세요" required />
+          </div>
+          <div class="field">
+            <label>연락처 <span class="req">*</span></label>
+            <input type="tel" name="phone" placeholder="010-0000-0000" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>이메일 <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="example@email.com" required />
+        </div>
+
+        <div class="field">
+          <label>어떤 로망인가요 <span class="req">*</span></label>
+          <div class="select-wrap">
+            <select name="concept" required>
+              <option value="" selected>가장 가까운 것을 골라주세요</option>
+              <option value="overseas">해외 드림 화보 — 가지 못했던 그곳에서</option>
+              <option value="together">함께하지 못한 사람과 — 그리운 분과 나란히</option>
+              <option value="giveup">포기했던 컨셉 — 한복 웨딩, 야간 촬영 등</option>
+              <option value="self">다시 찍는 셀프 웨딩 — 둘만의 화보</option>
+              <option value="custom">잘 모르겠어요 — 이야기로 들려드릴게요</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>기념일 · 웨딩 날짜 (선택)</label>
+          <input type="date" name="weddingDate" />
+        </div>
+
+        <div class="field">
+          <label>들려주고 싶은 이야기</label>
+          <textarea name="message" placeholder="“결혼식 때 못 입었던 한복을 입고, 고궁 앞에서 찍고 싶어요” — 이 정도면 충분합니다. 편하게 적어주세요."></textarea>
+        </div>
+
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="privacy" required />
+            <span>[필수] 개인정보 수집 및 이용에 동의합니다. 수집된 정보와 사진은 화보 제작 목적으로만 사용됩니다.</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="marketing" />
+            <span>[선택] 새로운 컨셉과 소식 안내 수신에 동의합니다.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="submit-btn">로망 보내기</button>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
 <footer>
-  <div class="footer-logo">다시 그날</div>
-  <p>
-    contact@dasigeunal.kr &nbsp;|&nbsp; 운영시간 평일 10:00–18:00<br /><br />
-    <small>© 2026 다시그날. All rights reserved. &nbsp;·&nbsp; <a href="#">개인정보처리방침</a> &nbsp;·&nbsp; <a href="#">이용약관</a></small>
+  <p class="footer-logo">다시<span class="comma">,</span> 그날</p>
+  <p class="footer-en">Dasi, Geunal — AI Wedding Atelier</p>
+  <p class="contact">
+    <a href="mailto:contact@dasigeunal.kr">contact@dasigeunal.kr</a><br />
+    상담 가능 시간 · 평일 10:00–18:00
+  </p>
+  <p class="legal">
+    © 2026 다시, 그날. All rights reserved.
+    <a href="#">개인정보처리방침</a>·<a href="#">이용약관</a>
   </p>
 </footer>
 
-<!-- TOAST -->
-<div id="toast"></div>
+<!-- ═══════════ TOAST ═══════════ -->
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-  // ── 이미지 로드 실패 시 빈 프레임 표시 ──
-  (function () {
-    const heroImg = document.getElementById('heroImg');
-    heroImg.addEventListener('error', function () {
-      this.style.display = 'none';
-    });
-
-    // Lazy-load + 에러 처리
-    document.querySelectorAll('.lazy-img').forEach(function (img, i) {
-      const src = img.getAttribute('data-src');
-      const frame = document.getElementById('frame' + (i + 1));
-      img.src = src;
-      img.addEventListener('load', function () {
-        if (frame) frame.style.display = 'none';
-      });
-      img.addEventListener('error', function () {
-        this.style.visibility = 'hidden';
-        if (frame) frame.style.display = 'flex';
-      });
-    });
-  })();
-
-  // ── 드래그 앤 드롭 ──
-  const zone = document.getElementById('uploadZone');
-  const fileInput = document.getElementById('fileInput');
-  const previewGrid = document.getElementById('previewGrid');
-  let uploadedFiles = [];
-
-  zone.addEventListener('dragover', function (e) {
-    e.preventDefault();
-    zone.classList.add('drag-over');
-  });
-  zone.addEventListener('dragleave', function () {
-    zone.classList.remove('drag-over');
-  });
-  zone.addEventListener('drop', function (e) {
-    e.preventDefault();
-    zone.classList.remove('drag-over');
-    handleFiles(e.dataTransfer.files);
-  });
-  fileInput.addEventListener('change', function () {
-    handleFiles(this.files);
-  });
-
-  function handleFiles(files) {
-    Array.from(files).forEach(function (file) {
-      if (!file.type.startsWith('image/')) return;
-      if (uploadedFiles.length >= 10) { showToast('최대 10장까지 업로드할 수 있습니다.'); return; }
-      uploadedFiles.push(file);
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        addPreview(e.target.result, uploadedFiles.length - 1);
-      };
-      reader.readAsDataURL(file);
-    });
+// ── 네비게이션 스크롤 상태 ──
+(function () {
+  var nav = document.getElementById('nav');
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 24);
   }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
 
-  function addPreview(src, idx) {
-    const item = document.createElement('div');
-    item.className = 'preview-item';
-    item.dataset.idx = idx;
-    const img = document.createElement('img');
-    img.src = src;
-    const btn = document.createElement('button');
-    btn.className = 'remove-btn';
-    btn.innerHTML = '✕';
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      uploadedFiles.splice(idx, 1);
-      item.remove();
-    });
-    item.appendChild(img);
-    item.appendChild(btn);
-    previewGrid.appendChild(item);
-  }
-
-  // ── 폼 제출 ──
-  document.getElementById('applyForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const form = this;
-    if (!form.name.value.trim()) { showToast('이름을 입력해주세요.'); return; }
-    if (!form.phone.value.trim()) { showToast('연락처를 입력해주세요.'); return; }
-    if (!form.email.value.trim()) { showToast('이메일을 입력해주세요.'); return; }
-    if (!form.concept.value) { showToast('화보 컨셉을 선택해주세요.'); return; }
-    if (!form.privacy.checked) { showToast('개인정보 수집 및 이용에 동의해주세요.'); return; }
-
-    // 실제 서비스에서는 여기서 API 호출
-    showToast('✓ 신청이 완료되었습니다! 1–2 영업일 내 연락드리겠습니다.');
-    form.reset();
-    uploadedFiles = [];
-    previewGrid.innerHTML = '';
-  });
-
-  // ── 토스트 ──
-  let toastTimer;
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3500);
-  }
-
-  // ── 스크롤 진입 애니메이션 ──
-  const observer = new IntersectionObserver(function (entries) {
+// ── 등장 애니메이션 ──
+(function () {
+  var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+})();
 
-  document.querySelectorAll('.dream-card, .step, .upload-zone, .apply-form').forEach(function (el) {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(28px)';
-    el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
-    observer.observe(el);
+// ── 이미지 폴백: 없으면 의도된 플레이스홀더 ──
+(function () {
+  function watch(img, onFail) {
+    // 스크립트보다 먼저 로드 실패가 끝난 경우까지 감지
+    if (img.complete && img.naturalWidth === 0) { onFail(); return; }
+    img.addEventListener('error', onFail);
+  }
+
+  var heroImg = document.getElementById('heroImg');
+  var heroVisual = document.getElementById('heroVisual');
+  watch(heroImg, function () { heroVisual.classList.add('no-img'); });
+
+  document.querySelectorAll('.dream-media img').forEach(function (img) {
+    watch(img, function () {
+      img.closest('.dream-media').classList.add('no-img');
+    });
   });
+})();
+
+// ── FAQ 아코디언 ──
+(function () {
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var panel = item.querySelector('.faq-a');
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (other) {
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = '0px';
+        other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+})();
+
+// ── 업로드 & 미리보기 ──
+var zone = document.getElementById('uploadZone');
+var fileInput = document.getElementById('fileInput');
+var previewGrid = document.getElementById('previewGrid');
+var uploadedFiles = [];
+
+zone.addEventListener('dragover', function (e) { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', function () { zone.classList.remove('drag-over'); });
+zone.addEventListener('drop', function (e) {
+  e.preventDefault();
+  zone.classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', function () { handleFiles(this.files); });
+
+function handleFiles(files) {
+  Array.prototype.forEach.call(files, function (file) {
+    if (!file.type || file.type.indexOf('image/') !== 0) return;
+    if (uploadedFiles.length >= 10) { showToast('사진은 최대 10장까지 올릴 수 있어요.'); return; }
+    uploadedFiles.push(file);
+    var reader = new FileReader();
+    reader.onload = function (e) { addPreview(e.target.result, file); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function addPreview(src, file) {
+  var item = document.createElement('div');
+  item.className = 'preview-item';
+  var img = document.createElement('img');
+  img.src = src;
+  img.alt = '업로드한 사진 미리보기';
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'remove-btn';
+  btn.innerHTML = '✕';
+  btn.setAttribute('aria-label', '사진 삭제');
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var idx = uploadedFiles.indexOf(file);
+    if (idx > -1) uploadedFiles.splice(idx, 1);
+    item.remove();
+  });
+  item.appendChild(img);
+  item.appendChild(btn);
+  previewGrid.appendChild(item);
+}
+
+// ── 폼 제출 ──
+document.getElementById('applyForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var form = this;
+  if (!form.name.value.trim())  { showToast('성함을 적어주세요.'); form.name.focus(); return; }
+  if (!form.phone.value.trim()) { showToast('연락처를 적어주세요.'); form.phone.focus(); return; }
+  if (!form.email.value.trim()) { showToast('이메일을 적어주세요.'); form.email.focus(); return; }
+  if (!form.concept.value)      { showToast('가장 가까운 로망을 골라주세요.'); form.concept.focus(); return; }
+  if (!form.privacy.checked)    { showToast('개인정보 수집 및 이용에 동의해주세요.'); return; }
+
+  // 실제 서비스에서는 여기서 API 호출
+  showToast('잘 받았습니다. 1–2 영업일 내에 연락드릴게요.');
+  form.reset();
+  uploadedFiles = [];
+  previewGrid.innerHTML = '';
+});
+
+// ── 토스트 ──
+var toastTimer;
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3600);
+}
 </script>
 </body>
 </html>
