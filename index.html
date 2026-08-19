@@ -994,6 +994,58 @@ section { padding: clamp(5.5rem, 12vh, 9rem) clamp(1.4rem, 5vw, 4.5rem); }
 
 .form-note { font-size: 0.76rem; color: var(--mist); line-height: 1.7; text-align: center; }
 
+.submission-success {
+  padding: clamp(2.2rem, 5vw, 3.4rem) clamp(1.4rem, 4vw, 2.8rem);
+  background: var(--paper);
+  border: 1px solid var(--gold-faint);
+  box-shadow: 0 20px 55px -32px var(--shadow-deep);
+  text-align: center;
+  animation: successIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.submission-success[hidden] { display: none; }
+.success-kicker {
+  font-family: var(--serif-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.submission-success h3 {
+  font-family: var(--serif-ko);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 300;
+  color: var(--espresso);
+  margin-bottom: 1rem;
+}
+.success-copy {
+  font-family: var(--serif-ko);
+  font-size: 0.91rem;
+  font-weight: 300;
+  line-height: 2;
+  color: var(--umber);
+  word-break: keep-all;
+}
+.kakao-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  width: 100%;
+  margin-top: 1.8rem;
+  padding: 1rem 1.2rem;
+  background: #fee500;
+  color: #191919;
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.kakao-btn:hover { background: #f7df00; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(25, 25, 25, 0.12); }
+.kakao-btn .arrow { margin-left: auto; font-family: var(--serif-en); font-size: 1rem; }
+@keyframes successIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
 /* ════════════════════════ TOAST ════════════════════════ */
 #toast {
   position: fixed;
@@ -1420,6 +1472,15 @@ footer .legal a:hover { color: var(--gold-soft); }
         <p class="form-note">보내주신 내용과 사진은 상담용 이메일로 안전하게 접수됩니다. 확인 후 1–2 영업일 내에 연락드릴게요.</p>
       </form>
 
+      <div class="submission-success" id="submissionSuccess" role="status" tabindex="-1" hidden>
+        <p class="success-kicker">Your story has arrived</p>
+        <h3>당신의 로망이 잘 도착했습니다.</h3>
+        <p class="success-copy">이메일 접수가 완료되었습니다.<br />카카오톡에서 편하게 이야기를 이어가세요.</p>
+        <a class="kakao-btn" href="https://open.kakao.com/o/sN1UmyJi" target="_blank" rel="noopener noreferrer">
+          카카오톡 오픈채팅으로 상담 계속하기 <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1570,6 +1631,7 @@ document.getElementById('applyForm').addEventListener('submit', async function (
   var conceptText = form.concept.options[form.concept.selectedIndex].text;
   var endpoint = document.querySelector('meta[name="inquiry-endpoint"]').content.trim();
   var submitButton = form.querySelector('.submit-btn');
+  var successPanel = document.getElementById('submissionSuccess');
 
   // 알림 서버가 연결되면 한 번의 제출로 이메일과 메신저에 동시에 전달됩니다.
   if (endpoint) {
@@ -1588,6 +1650,10 @@ document.getElementById('applyForm').addEventListener('submit', async function (
       uploadedFiles = [];
       previewGrid.innerHTML = '';
       fileInput.value = '';
+      form.hidden = true;
+      successPanel.hidden = false;
+      successPanel.focus({ preventScroll: true });
+      successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     } catch (error) {
       showToast('자동 접수가 원활하지 않아 이메일 작성 창으로 연결합니다.');
