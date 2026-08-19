@@ -990,6 +990,120 @@ section { padding: clamp(5.5rem, 12vh, 9rem) clamp(1.4rem, 5vw, 4.5rem); }
 }
 .submit-btn:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
 
+/* ════════════════════════ QUICK CONTACT ════════════════════════ */
+#quick-contact {
+  background: var(--paper);
+  border-top: 1px solid rgba(174, 138, 83, 0.18);
+  border-bottom: 1px solid rgba(174, 138, 83, 0.18);
+}
+.contact-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+.contact-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.contact-card {
+  min-height: 190px;
+  padding: 1.8rem;
+  border: 1px solid rgba(174, 138, 83, 0.3);
+  background: var(--ivory);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.contact-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 16px 36px -22px var(--shadow-deep);
+}
+.contact-card small {
+  font-family: var(--serif-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.contact-card strong {
+  display: block;
+  margin: 1.2rem 0 0.5rem;
+  font-family: var(--serif-ko);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--espresso);
+}
+.contact-card span { font-size: 0.82rem; color: var(--umber); line-height: 1.8; }
+.contact-card .card-arrow { align-self: flex-end; color: var(--gold); font-family: var(--serif-en); font-size: 1.2rem; }
+
+.email-capture {
+  margin-top: 2rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(174, 138, 83, 0.22);
+}
+.email-capture p { font-size: 0.82rem; color: var(--umber); margin-bottom: 0.8rem; }
+.email-capture-row { display: flex; gap: 0.7rem; }
+.email-capture-row input {
+  min-width: 0;
+  flex: 1;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--ivory);
+  border: 1px solid rgba(174, 138, 83, 0.35);
+  padding: 0.9rem 1rem;
+  outline: none;
+}
+.email-capture-row input:focus { border-color: var(--gold); }
+.email-capture-row button {
+  border: 1px solid var(--espresso);
+  background: var(--espresso);
+  color: var(--ivory);
+  padding: 0.9rem 1.3rem;
+  font-family: var(--sans);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.capture-consent { margin-top: 0.7rem; font-size: 0.72rem !important; color: var(--mist) !important; }
+
+.floating-contact {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 350;
+  display: flex;
+  gap: 0.55rem;
+  padding: 0.5rem;
+  background: rgba(252, 250, 246, 0.94);
+  border: 1px solid rgba(174, 138, 83, 0.28);
+  box-shadow: 0 12px 34px rgba(46, 40, 35, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.floating-contact a {
+  padding: 0.72rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--espresso);
+}
+.floating-contact a:first-child { background: var(--espresso); color: var(--ivory); }
+.form-note { font-size: 0.76rem; color: var(--mist); line-height: 1.7; text-align: center; }
+
+@media (max-width: 760px) {
+  .contact-panel { grid-template-columns: 1fr; }
+  .contact-options { grid-template-columns: 1fr; }
+  .contact-card { min-height: 150px; }
+  .floating-contact { left: 0; right: 0; bottom: 0; padding: 0.55rem; justify-content: center; border-width: 1px 0 0; }
+  .floating-contact a { flex: 1; text-align: center; }
+  footer { padding-bottom: 7rem; }
+}
+@media (max-width: 480px) {
+  .email-capture-row { flex-direction: column; }
+}
+
 /* ════════════════════════ TOAST ════════════════════════ */
 #toast {
   position: fixed;
@@ -1064,7 +1178,7 @@ footer .legal a:hover { color: var(--gold-soft); }
     <li><a href="#gallery">갤러리</a></li>
     <li><a href="#process">진행 방법</a></li>
     <li><a href="#faq">자주 묻는 질문</a></li>
-    <li><a href="#apply" class="nav-cta">이야기 들려주기</a></li>
+    <li><a href="#quick-contact" class="nav-cta">바로 상담하기</a></li>
   </ul>
 </nav>
 
@@ -1079,7 +1193,7 @@ footer .legal a:hover { color: var(--gold-soft); }
     </h1>
     <div class="hero-actions reveal" style="--d:0.24s">
       <a href="#apply" class="btn-solid">나의 로망 들려주기 <span class="arrow">→</span></a>
-      <a href="#gallery" class="btn-line">로망 갤러리 보기</a>
+      <a href="mailto:contact@dasigeunal.kr?subject=%5B%EB%8B%A4%EC%8B%9C%2C%20%EA%B7%B8%EB%82%A0%5D%20%EC%83%81%EB%8B%B4%20%EB%AC%B8%EC%9D%98" class="btn-line">이메일로 바로 상담</a>
     </div>
   </div>
   <div class="hero-visual" id="heroVisual">
@@ -1328,6 +1442,46 @@ footer .legal a:hover { color: var(--gold-soft); }
   </div>
 </section>
 
+<!-- ═══════════ QUICK CONTACT ═══════════ -->
+<section id="quick-contact">
+  <div class="wrap contact-panel">
+    <div>
+      <p class="sec-eyebrow reveal">Quick Contact</p>
+      <h2 class="sec-title reveal" style="--d:0.08s">망설이지 말고,<br /><em>편한 방법으로</em></h2>
+      <p class="sec-desc reveal" style="--d:0.16s">
+        아직 원하는 장면이 선명하지 않아도 괜찮습니다.
+        이메일 한 줄 또는 1분 문의서로 먼저 이야기를 시작해 주세요.
+      </p>
+      <form class="email-capture reveal" id="emailCaptureForm" style="--d:0.22s">
+        <p>새로운 화보 컨셉과 상담 안내를 이메일로 받아보세요.</p>
+        <div class="email-capture-row">
+          <input type="email" name="captureEmail" aria-label="소식 받을 이메일" autocomplete="email" placeholder="이메일 주소" required />
+          <button type="submit">이메일 남기기</button>
+        </div>
+        <p class="capture-consent">신청 시 이메일 안내 수신에 동의하며, 언제든 수신을 취소할 수 있습니다.</p>
+      </form>
+    </div>
+    <div class="contact-options">
+      <a class="contact-card reveal" href="mailto:contact@dasigeunal.kr?subject=%5B%EB%8B%A4%EC%8B%9C%2C%20%EA%B7%B8%EB%82%A0%5D%20%EB%B9%A0%EB%A5%B8%20%EC%83%81%EB%8B%B4">
+        <div>
+          <small>Direct Email</small>
+          <strong>이메일로 바로 상담</strong>
+          <span>contact@dasigeunal.kr<br />메일 앱에서 바로 문의할 수 있어요.</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="contact-card reveal" href="#apply" style="--d:0.1s">
+        <div>
+          <small>1 Minute Form</small>
+          <strong>1분 문의서 남기기</strong>
+          <span>연락처와 원하는 장면을 남기면<br />1–2 영업일 내 연락드려요.</span>
+        </div>
+        <span class="card-arrow">↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════ APPLY ═══════════ -->
 <section id="apply">
   <div class="wrap">
@@ -1367,24 +1521,24 @@ footer .legal a:hover { color: var(--gold-soft); }
       <form class="apply-form reveal" id="applyForm" novalidate style="--d:0.14s">
         <div class="form-row">
           <div class="field">
-            <label>이름 <span class="req">*</span></label>
-            <input type="text" name="name" placeholder="성함을 적어주세요" required />
+            <label for="applyName">이름 <span class="req">*</span></label>
+            <input type="text" id="applyName" name="name" autocomplete="name" placeholder="성함을 적어주세요" required />
           </div>
           <div class="field">
-            <label>연락처 <span class="req">*</span></label>
-            <input type="tel" name="phone" placeholder="010-0000-0000" required />
+            <label for="applyPhone">연락처 <span class="req">*</span></label>
+            <input type="tel" id="applyPhone" name="phone" autocomplete="tel" inputmode="tel" placeholder="010-0000-0000" required />
           </div>
         </div>
 
         <div class="field">
-          <label>이메일 <span class="req">*</span></label>
-          <input type="email" name="email" placeholder="example@email.com" required />
+          <label for="applyEmail">이메일 <span class="req">*</span></label>
+          <input type="email" id="applyEmail" name="email" autocomplete="email" placeholder="example@email.com" required />
         </div>
 
         <div class="field">
-          <label>어떤 로망인가요 <span class="req">*</span></label>
+          <label for="applyConcept">어떤 로망인가요 <span class="req">*</span></label>
           <div class="select-wrap">
-            <select name="concept" required>
+            <select id="applyConcept" name="concept" required>
               <option value="" selected>가장 가까운 것을 골라주세요</option>
               <option value="overseas">신혼여행 — 가지 못했던 그곳에서</option>
               <option value="together">함께하지 못한 사람과 — 그리운 분과 나란히</option>
@@ -1396,13 +1550,13 @@ footer .legal a:hover { color: var(--gold-soft); }
         </div>
 
         <div class="field">
-          <label>기념일 · 웨딩 날짜 (선택)</label>
-          <input type="date" name="weddingDate" />
+          <label for="applyDate">기념일 · 웨딩 날짜 (선택)</label>
+          <input type="date" id="applyDate" name="weddingDate" />
         </div>
 
         <div class="field">
-          <label>들려주고 싶은 이야기</label>
-          <textarea name="message" placeholder="“결혼식 때 못 입었던 한복을 입고, 고궁 앞에서 찍고 싶어요” — 이 정도면 충분합니다. 편하게 적어주세요."></textarea>
+          <label for="applyMessage">들려주고 싶은 이야기</label>
+          <textarea id="applyMessage" name="message" placeholder="“결혼식 때 못 입었던 한복을 입고, 고궁 앞에서 찍고 싶어요” — 이 정도면 충분합니다. 편하게 적어주세요."></textarea>
         </div>
 
         <div class="checkbox-group">
@@ -1416,7 +1570,8 @@ footer .legal a:hover { color: var(--gold-soft); }
           </label>
         </div>
 
-        <button type="submit" class="submit-btn">로망 보내기</button>
+        <button type="submit" class="submit-btn">이메일로 로망 보내기</button>
+        <p class="form-note">버튼을 누르면 작성 내용이 담긴 이메일 작성 창이 열립니다. 사진은 이메일에 직접 첨부해 주세요.</p>
       </form>
 
     </div>
@@ -1438,6 +1593,11 @@ footer .legal a:hover { color: var(--gold-soft); }
     <a href="#">개인정보처리방침</a>·<a href="#">이용약관</a>
   </p>
 </footer>
+
+<div class="floating-contact" aria-label="빠른 상담">
+  <a href="mailto:contact@dasigeunal.kr?subject=%5B%EB%8B%A4%EC%8B%9C%2C%20%EA%B7%B8%EB%82%A0%5D%20%EC%83%81%EB%8B%B4%20%EB%AC%B8%EC%9D%98">이메일 상담</a>
+  <a href="#apply">1분 문의 남기기</a>
+</div>
 
 <!-- ═══════════ TOAST ═══════════ -->
 <div id="toast" role="status" aria-live="polite"></div>
@@ -1564,11 +1724,38 @@ document.getElementById('applyForm').addEventListener('submit', function (e) {
   if (!form.concept.value)      { showToast('가장 가까운 로망을 골라주세요.'); form.concept.focus(); return; }
   if (!form.privacy.checked)    { showToast('개인정보 수집 및 이용에 동의해주세요.'); return; }
 
-  // 실제 서비스에서는 여기서 API 호출
-  showToast('잘 받았습니다. 1–2 영업일 내에 연락드릴게요.');
-  form.reset();
-  uploadedFiles = [];
-  previewGrid.innerHTML = '';
+  var conceptText = form.concept.options[form.concept.selectedIndex].text;
+  var body = [
+    '안녕하세요. 다시, 그날 상담을 요청합니다.',
+    '',
+    '이름: ' + form.name.value.trim(),
+    '연락처: ' + form.phone.value.trim(),
+    '회신 이메일: ' + form.email.value.trim(),
+    '원하는 컨셉: ' + conceptText,
+    '기념일/웨딩 날짜: ' + (form.weddingDate.value || '미정'),
+    '',
+    '이야기:',
+    form.message.value.trim() || '(작성하지 않음)',
+    '',
+    uploadedFiles.length ? '사진 ' + uploadedFiles.length + '장을 선택했습니다. 이메일에 직접 첨부하겠습니다.' : '첨부할 사진은 없습니다.'
+  ].join('\n');
+
+  var mailto = 'mailto:contact@dasigeunal.kr?subject=' +
+    encodeURIComponent('[다시, 그날] ' + form.name.value.trim() + '님의 상담 문의') +
+    '&body=' + encodeURIComponent(body);
+  showToast('이메일 작성 창을 열고 있어요. 내용을 확인한 뒤 전송해 주세요.');
+  window.location.href = mailto;
+});
+
+// ── 이메일 소식 신청 ──
+document.getElementById('emailCaptureForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var email = this.captureEmail.value.trim();
+  if (!email) { showToast('이메일 주소를 적어주세요.'); this.captureEmail.focus(); return; }
+  var subject = encodeURIComponent('[다시, 그날] 이메일 소식 신청');
+  var body = encodeURIComponent('이메일 소식과 상담 안내를 신청합니다.\n\n신청 이메일: ' + email);
+  showToast('이메일 신청 창을 열고 있어요. 전송하면 신청이 완료됩니다.');
+  window.location.href = 'mailto:contact@dasigeunal.kr?subject=' + subject + '&body=' + body;
 });
 
 // ── 토스트 ──
@@ -1583,3 +1770,4 @@ function showToast(msg) {
 </script>
 </body>
 </html>
+
