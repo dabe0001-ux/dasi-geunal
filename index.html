@@ -1396,13 +1396,8 @@ footer .legal a:hover { color: var(--gold-soft); }
         </div>
 
         <div class="field">
-          <label for="applyDate">기념일 · 웨딩 날짜 (선택)</label>
-          <input type="date" id="applyDate" name="weddingDate" />
-        </div>
-
-        <div class="field">
           <label for="applyMessage">들려주고 싶은 이야기</label>
-          <textarea id="applyMessage" name="message" placeholder="“결혼식 때 못 입었던 한복을 입고, 고궁 앞에서 찍고 싶어요” — 이 정도면 충분합니다. 편하게 적어주세요."></textarea>
+          <textarea id="applyMessage" name="message" placeholder="신혼여행 때 끝내 가지 못했던 장소가 있나요? 결혼식 날 마음속에만 담아둔 장면은 무엇인가요?&#10;&#10;“오로라 아래에서 둘만의 사진을 남기고 싶었어요.”&#10;“그날 포기했던 한복과 야간 촬영을 다시 남기고 싶어요.”&#10;&#10;짧은 한 줄이어도 충분합니다."></textarea>
         </div>
 
         <div class="checkbox-group">
@@ -1600,7 +1595,6 @@ document.getElementById('applyForm').addEventListener('submit', async function (
     '연락처: ' + form.phone.value.trim(),
     '회신 이메일: ' + form.email.value.trim(),
     '원하는 컨셉: ' + conceptText,
-    '기념일/웨딩 날짜: ' + (form.weddingDate.value || '미정'),
     '',
     '이야기:',
     form.message.value.trim() || '(작성하지 않음)',
