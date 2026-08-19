@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="inquiry-endpoint" content="" />
+<meta name="inquiry-endpoint" content="https://formsubmit.co/ajax/dabe0001@naver.com" />
 <title>다시, 그날 — 당신의 로망을 한 장의 그날로 | AI 웨딩 아틀리에</title>
 <meta name="description" content="AI를 몰라도 괜찮습니다. 막연한 로망 한 줄이면, 듣고 정리하고 검수해서 당신만의 웨딩 화보로 완성해 드립니다. 사람이 검수하는 프리미엄 AI 웨딩 아틀리에." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -990,6 +990,7 @@ section { padding: clamp(5.5rem, 12vh, 9rem) clamp(1.4rem, 5vw, 4.5rem); }
   margin-top: 0.6rem;
 }
 .submit-btn:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+.submit-btn:disabled { opacity: 0.68; cursor: wait; transform: none; }
 
 .form-note { font-size: 0.76rem; color: var(--mist); line-height: 1.7; text-align: center; }
 
@@ -1257,7 +1258,7 @@ footer .legal a:hover { color: var(--gold-soft); }
         <p class="proc-num">01<small>Tell us</small></p>
         <div>
           <h3>로망 남기기</h3>
-          <p>일상 사진 5–10장과 막연한 바람 한 줄. <strong>“바닷가였으면 좋겠어요”</strong> 정도면 충분합니다. 구체적이지 않아도 괜찮습니다.</p>
+          <p>얼굴이 잘 보이는 사진 2–5장과 막연한 바람 한 줄. <strong>“바닷가였으면 좋겠어요”</strong> 정도면 충분합니다. 구체적이지 않아도 괜찮습니다.</p>
         </div>
       </div>
       <div class="proc reveal">
@@ -1302,7 +1303,7 @@ footer .legal a:hover { color: var(--gold-soft); }
           <span class="toggle">+</span>
         </button>
         <div class="faq-a"><div class="faq-a-inner">
-          얼굴이 선명하게 나온 일상 사진 5–10장이면 충분합니다. 정면·측면 등 다양한 각도가 섞여 있을수록 좋고,
+          얼굴이 선명하게 나온 일상 사진 2–5장이면 충분합니다. 정면·측면 등 다양한 각도가 섞여 있을수록 좋고,
           꼭 잘 나온 사진이 아니어도 괜찮습니다. 휴대폰 사진이면 충분합니다.
         </div></div>
       </div>
@@ -1356,7 +1357,7 @@ footer .legal a:hover { color: var(--gold-soft); }
               </svg>
             </div>
             <p class="upload-title">사진을 끌어다 놓거나 클릭하세요</p>
-            <p class="upload-hint">JPG · PNG · HEIC, 파일당 최대 20MB<br />얼굴이 선명한 사진 5–10장 권장</p>
+            <p class="upload-hint">JPG · PNG · HEIC, 사진 전체 최대 10MB<br />얼굴이 잘 보이는 사진 2–5장 권장</p>
           </div>
           <div class="preview-grid" id="previewGrid"></div>
         </div>
@@ -1367,7 +1368,11 @@ footer .legal a:hover { color: var(--gold-soft); }
         </div>
       </div>
 
-      <form class="apply-form reveal" id="applyForm" novalidate style="--d:0.14s">
+      <form class="apply-form reveal" id="applyForm" action="https://formsubmit.co/dabe0001@naver.com" method="POST" enctype="multipart/form-data" novalidate style="--d:0.14s">
+        <input type="hidden" name="_subject" value="[다시, 그날] 새로운 로망 상담이 도착했습니다" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none" />
         <div class="form-row">
           <div class="field">
             <label for="applyName">이름 <span class="req">*</span></label>
@@ -1412,7 +1417,7 @@ footer .legal a:hover { color: var(--gold-soft); }
         </div>
 
         <button type="submit" class="submit-btn">로망 보내기</button>
-        <p class="form-note">버튼을 누르면 작성 내용이 담긴 이메일 작성 창이 열립니다. 사진은 이메일에 직접 첨부해 주세요.</p>
+        <p class="form-note">보내주신 내용과 사진은 상담용 이메일로 안전하게 접수됩니다. 확인 후 1–2 영업일 내에 연락드릴게요.</p>
       </form>
 
     </div>
@@ -1426,7 +1431,7 @@ footer .legal a:hover { color: var(--gold-soft); }
   <p class="footer-logo">다시<span class="comma">,</span> 그날</p>
   <p class="footer-en">Dasi, Geunal — AI Wedding Atelier</p>
   <p class="contact">
-    <a href="mailto:contact@dasigeunal.kr">contact@dasigeunal.kr</a><br />
+    <a href="mailto:dabe0001@naver.com">dabe0001@naver.com</a><br />
     상담 가능 시간 · 평일 10:00–18:00
   </p>
   <p class="legal">
@@ -1521,6 +1526,8 @@ function handleFiles(files) {
   Array.prototype.forEach.call(files, function (file) {
     if (!file.type || file.type.indexOf('image/') !== 0) return;
     if (uploadedFiles.length >= 10) { showToast('사진은 최대 10장까지 올릴 수 있어요.'); return; }
+    var totalSize = uploadedFiles.reduce(function (sum, item) { return sum + item.size; }, 0) + file.size;
+    if (totalSize > 10 * 1024 * 1024) { showToast('사진 전체 용량은 10MB까지 올릴 수 있어요.'); return; }
     uploadedFiles.push(file);
     var reader = new FileReader();
     reader.onload = function (e) { addPreview(e.target.result, file); };
@@ -1567,8 +1574,9 @@ document.getElementById('applyForm').addEventListener('submit', async function (
   // 알림 서버가 연결되면 한 번의 제출로 이메일과 메신저에 동시에 전달됩니다.
   if (endpoint) {
     var payload = new FormData(form);
+    payload.append('_replyto', form.email.value.trim());
     payload.append('conceptLabel', conceptText);
-    payload.append('source', window.location.href);
+    payload.append('_url', window.location.href);
     uploadedFiles.forEach(function (file) { payload.append('photos', file, file.name); });
     submitButton.disabled = true;
     submitButton.textContent = '보내는 중…';
@@ -1579,6 +1587,7 @@ document.getElementById('applyForm').addEventListener('submit', async function (
       form.reset();
       uploadedFiles = [];
       previewGrid.innerHTML = '';
+      fileInput.value = '';
       return;
     } catch (error) {
       showToast('자동 접수가 원활하지 않아 이메일 작성 창으로 연결합니다.');
@@ -1602,7 +1611,7 @@ document.getElementById('applyForm').addEventListener('submit', async function (
     uploadedFiles.length ? '사진 ' + uploadedFiles.length + '장을 선택했습니다. 이메일에 직접 첨부하겠습니다.' : '첨부할 사진은 없습니다.'
   ].join('\n');
 
-  var mailto = 'mailto:contact@dasigeunal.kr?subject=' +
+  var mailto = 'mailto:dabe0001@naver.com?subject=' +
     encodeURIComponent('[다시, 그날] ' + form.name.value.trim() + '님의 상담 문의') +
     '&body=' + encodeURIComponent(body);
   showToast('이메일 작성 창을 열고 있어요. 내용을 확인한 뒤 전송해 주세요.');
